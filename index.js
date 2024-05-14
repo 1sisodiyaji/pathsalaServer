@@ -1,5 +1,6 @@
 // Importing necessary modules and packages
 const express = require("express");
+const session = require("express-session"); // Import express-session
 const app = express();
 const userRoutes = require("./routes/user");
 const profileRoutes = require("./routes/profile");
@@ -12,6 +13,7 @@ const cors = require("cors");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
+const path = require("path");
 
 // Setting up port number
 const PORT = process.env.PORT || 3000;
@@ -21,21 +23,38 @@ dotenv.config();
 
 // Connecting to database
 database.connect();
- 
+
 // Middlewares
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(session({ // Use express-session middleware
+  secret: process.env.secretKey,
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.use((req, res, next) => {
+  const allowedOrigins = ['https://pathsala.vercel.app', 'http://localhost:3000' , 'http://192.168.56.1:3000'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 app.use(
-	cors({
-		origin: "http://192.168.56.1:3000",
-		credentials: true,
-	})
-);
-app.use(
-	fileUpload({
-		useTempFiles: true,
-		tempFileDir: "/tmp/",
-	})
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
 );
 
 // Connecting to cloudinary
@@ -50,15 +69,15 @@ app.use("/api/v1/reach", contactUsRoute);
 
 // Testing the server
 app.get("/", (req, res) => {
-	return res.json({
-		success: true,
-		message: "Your server is up and running ...",
-	});
+  return res.json({
+    success: true,
+    message: "Your server is up and running ...",
+  });
 });
 
 // Listening to the server
 app.listen(PORT, () => {
-	console.log(`App is listening at ${PORT}`);
+  console.log(`App is listening at ${PORT}`);
 });
 
 // End of code.
