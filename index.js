@@ -1,6 +1,5 @@
 // Importing necessary modules and packages
 const express = require("express");
-const session = require("express-session"); // Import express-session
 const app = express();
 const userRoutes = require("./routes/user");
 const profileRoutes = require("./routes/profile");
@@ -14,9 +13,10 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 const path = require("path");
+const morgan=require("morgan");
 
 // Setting up port number
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8081;
 
 // Loading environment variables from .env file
 dotenv.config();
@@ -29,11 +29,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({ // Use express-session middleware
-  secret: process.env.secretKey,
-  resave: false,
-  saveUninitialized: false,
-}));
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -56,6 +52,7 @@ app.use(
     tempFileDir: "/tmp/",
   })
 );
+app.use(morgan("dev"));
 
 // Connecting to cloudinary
 cloudinaryConnect();
