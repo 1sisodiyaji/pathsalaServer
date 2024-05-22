@@ -74,13 +74,8 @@ exports.contactUsEmail = (
   
   <body>
       <div class="container">
-          <a href="https://studynotion-edtech-project.vercel.app">    <div className="text-white flex gap-2">
-          <div className=" border rounded-full  overflow-hidden w-7 h-6 bg-yellow-500 ">
-          <p className="font-extrabold text-bold object-cover pl-2">P</p>
-          </div>
-        <h1 className="text-white font-extrabold  text-bold">PathShala</h1>
-
-        </div></a>
+          <a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
+                  src="https://i.ibb.co/7Xyj3PC/logo.png" alt="StudyNotion Logo"></a>
           <div class="message">Contact Form Confirmation</div>
           <div class="body">
               <p>Dear ${firstname} ${lastname},</p>
@@ -94,7 +89,7 @@ exports.contactUsEmail = (
               <p>We appreciate your interest and will get back to you shortly. </p>
           </div>
           <div class="support">If you have any further questions or need immediate assistance, please feel free to reach
-              out to us at <a href="mailto:surajsinghdeo9@gmail.com">surajsinghdeo9@gmail.com</a>. We are here to help!</div>
+              out to us at <a href="mailto:info@studynotion.com">info@studynotion.com</a>. We are here to help!</div>
       </div>
   </body>
   
