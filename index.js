@@ -25,12 +25,24 @@ database.connect();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-	cors({
-		origin: "*",
-		credentials: true,
-	})
-);
+// Middleware to handle CORS  Start
+app.use((req, res, next) => {
+	const allowedOrigins = ["https://pathsala.vercel.app", "http://localhost:3000"];
+	const origin = req.headers.origin;
+	if (allowedOrigins.includes(origin)) {
+	  res.setHeader("Access-Control-Allow-Origin", origin);
+	}
+	res.setHeader(
+	  "Access-Control-Allow-Methods",
+	  "GET, POST, PUT, DELETE, OPTIONS"
+	);
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	if (req.method === "OPTIONS") {
+	  res.sendStatus(204);
+	} else {
+	  next();
+	}
+  }); 
 app.use(
 	fileUpload({
 		useTempFiles: true,
