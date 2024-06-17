@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 // Middleware to handle CORS  Start
 app.use((req, res, next) => {
-	const allowedOrigins = ["https://pathsala.vercel.app", "http://localhost:3000"];
+	const allowedOrigins = ["https://pathshala-ruby.vercel.app", "http://localhost:3000"];
 	const origin = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
 	  res.setHeader("Access-Control-Allow-Origin", origin);
