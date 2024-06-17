@@ -54,11 +54,11 @@ app.use(
 cloudinaryConnect();
 
 // Setting up routes
-app.use("/api/v1/auth", userRoutes);
-app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/course", courseRoutes);
-app.use("/api/v1/payment", paymentRoutes);
-app.use("/api/v1/reach", contactUsRoute);
+app.use("/api/auth", userRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/course", courseRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/reach", contactUsRoute);
 
 // Testing the server
 app.get("/", (req, res) => {
