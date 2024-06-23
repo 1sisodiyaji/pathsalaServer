@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
     },
 
@@ -67,8 +68,7 @@ const userSchema = new mongoose.Schema(
         ref: "courseProgress",
       },
     ],
-
-    // Add timestamps for when the document is created and last modified
+ 
   },
   { timestamps: true }
 )
